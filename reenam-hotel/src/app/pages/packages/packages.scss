@@ -1,0 +1,172 @@
+@use '../../../styles' as *;
+
+.packages-page {
+	max-width: 1080px;
+	margin-inline: auto;
+}
+
+.packages-page header h1 {
+	font-size: 1.9rem;
+}
+
+.packages-page header p {
+	color: #4b5563;
+}
+
+.packages-intro {
+	margin-top: 1.4rem;
+	max-width: 40rem;
+	color: #4b5563;
+}
+
+.packages-grid {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.5rem;
+}
+
+.packages-grid .package-card {
+	padding: 1.4rem 1.5rem;
+	border-radius: 1.3rem;
+	border: 1px solid rgba(209, 213, 219, 0.9);
+	background: #ffffff;
+}
+
+.packages-grid h2 {
+	font-size: 1.05rem;
+	margin-bottom: 0.4rem;
+}
+
+.packages-grid p {
+	font-size: 0.9rem;
+	color: #4b5563;
+}
+
+.package-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem 0.75rem;
+	margin-bottom: 0.6rem;
+	font-size: 0.8rem;
+	color: #6b7280;
+}
+
+.package-duration {
+	font-weight: 600;
+}
+
+.package-itinerary {
+	margin-top: 0.9rem;
+	font-size: 0.85rem;
+}
+
+.package-itinerary summary {
+	cursor: pointer;
+	color: #b22928;
+	font-weight: 500;
+	list-style: none;
+}
+
+.package-itinerary summary::-webkit-details-marker {
+	display: none;
+}
+
+.package-itinerary ul {
+	margin: 0.6rem 0 0;
+	padding-left: 1.1rem;
+	color: #4b5563;
+}
+
+.packages-copy {
+	margin-top: 2.5rem;
+	max-width: 42rem;
+	color: #4b5563;
+	font-size: 0.9rem;
+	line-height: 1.7;
+}
+
+.packages-copy p + p {
+	margin-top: 0.8rem;
+}
+
+.packages-images {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.packages-images figure {
+	margin: 0;
+}
+
+.packages-images img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 1.1rem;
+}
+
+.packages-images figcaption {
+	margin-top: 0.4rem;
+	font-size: 0.8rem;
+	color: #4b5563;
+}
+
+.packages-faq {
+	margin-top: 3rem;
+	padding-top: 2.5rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.packages-faq h2 {
+	font-size: 1.3rem;
+	margin-bottom: 1.4rem;
+	color: #6c4323;
+}
+
+.faq-list {
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.2rem 1.5rem;
+}
+
+.faq-item {
+	background: rgba(255, 255, 255, 0.94);
+	border-radius: 1.4rem;
+	border: 1px solid rgba(209, 213, 219, 0.9);
+	padding: 1rem 1.15rem;
+}
+
+.faq-item dt {
+	font-size: 0.9rem;
+	font-weight: 600;
+	margin-bottom: 0.45rem;
+}
+
+.faq-item dd {
+	margin: 0;
+	font-size: 0.85rem;
+	color: #4b5563;
+}
+
+@media (max-width: 900px) {
+	.packages-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.packages-images {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.packages-images img {
+		height: 190px;
+	}
+
+	.faq-list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

@@ -1,0 +1,37 @@
+<section class="gallery-page">
+	<header>
+		<h1>Gallery</h1>
+		<p>A peek at the hotel’s exterior, rooms, dining spaces and common areas in and around Reenam Hotel.</p>
+	</header>
+
+	<div class="gallery-slider" *ngIf="images.length">
+		<button type="button" class="slider-nav slider-nav--prev" (click)="prev()" aria-label="Previous image">
+			&#10094;
+		</button>
+		<figure class="slider-frame">
+			<img
+				[src]="images[currentIndex].src"
+				[alt]="images[currentIndex].alt"
+			/>
+			<figcaption>{{ images[currentIndex].caption }}</figcaption>
+		</figure>
+		<button type="button" class="slider-nav slider-nav--next" (click)="next()" aria-label="Next image">
+			&#10095;
+		</button>
+	</div>
+
+	<div class="gallery-grid">
+		<button
+			type="button"
+			class="tile"
+			*ngFor="let image of images; let i = index"
+			[class.tile--active]="i === currentIndex"
+			(click)="goTo(i)"
+		>
+			<span class="tile-media">
+				<img [src]="image.src" [alt]="image.alt" />
+			</span>
+			<span class="tile-caption">{{ image.caption }}</span>
+		</button>
+	</div>
+</section>

@@ -1,0 +1,77 @@
+@use '../../../styles' as *;
+
+.dining-page {
+	max-width: 1080px;
+	margin-inline: auto;
+}
+
+.dining-page header h1 {
+	font-size: 1.9rem;
+}
+
+.dining-page header p {
+	color: #4b5563;
+}
+
+.dining-grid {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1.5rem;
+}
+
+.dining-grid article {
+	padding: 1.4rem 1.5rem;
+	border-radius: 1.3rem;
+	border: 1px solid rgba(209, 213, 219, 0.9);
+	background: #ffffff;
+}
+
+.dining-grid h2 {
+	font-size: 1.05rem;
+	margin-bottom: 0.4rem;
+}
+
+.dining-grid p {
+	font-size: 0.9rem;
+	color: #4b5563;
+}
+
+.dining-images {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.dining-images figure {
+	margin: 0;
+}
+
+.dining-images img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 1.1rem;
+}
+
+.dining-images figcaption {
+	margin-top: 0.4rem;
+	font-size: 0.8rem;
+	color: #4b5563;
+}
+
+@media (max-width: 900px) {
+	.dining-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.dining-images {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.dining-images img {
+		height: 190px;
+	}
+}
+

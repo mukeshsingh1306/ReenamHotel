@@ -1,0 +1,108 @@
+<section class="booking-page">
+	<header class="booking-header">
+		<h1>Book your stay</h1>
+		<p>Choose your dates, guests, and room type. You’ll receive a summary instantly.</p>
+	</header>
+
+	<div class="booking-layout">
+		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="booking-form" novalidate>
+			<div class="field-grid">
+				<div class="field">
+					<label for="checkIn">Check‑in</label>
+					<input id="checkIn" type="date" formControlName="checkIn" />
+				</div>
+				<div class="field">
+					<label for="checkOut">Check‑out</label>
+					<input id="checkOut" type="date" formControlName="checkOut" />
+				</div>
+				<div class="field">
+					<label for="guests">Guests</label>
+					<input id="guests" type="number" min="1" max="6" formControlName="guests" />
+				</div>
+				<div class="field">
+					<label for="roomType">Room type</label>
+					<select id="roomType" formControlName="roomType">
+						<option value="deluxe">Deluxe Room</option>
+						<option value="deluxe-economy">Deluxe Economy</option>
+						<option value="deluxe-triple">Deluxe Triple</option>
+						<option value="family-suite">Family Suite</option>
+						<option value="superior-deluxe">Superior Deluxe</option>
+						<option value="superior-deluxe-queen">Superior Deluxe Queen</option>
+						<option value="superior-suite">Superior Suite</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="field-grid">
+				<div class="field">
+					<label for="name">Full name</label>
+					<input id="name" type="text" formControlName="name" placeholder="Guest name" />
+				</div>
+				<div class="field">
+					<label for="email">Email</label>
+					<input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+				</div>
+				<div class="field">
+					<label for="phone">Phone (optional)</label>
+					<input id="phone" type="tel" formControlName="phone" />
+				</div>
+			</div>
+
+			<div class="field">
+				<label for="specialRequests">Special requests</label>
+				<textarea
+					id="specialRequests"
+					rows="3"
+					formControlName="specialRequests"
+					placeholder="Late check‑in, airport transfer, dietary preferences…"
+				></textarea>
+			</div>
+
+			<button type="submit" class="primary-block" [disabled]="submitting">
+				<span *ngIf="!submitting">Review booking</span>
+				<span *ngIf="submitting">Sending request…</span>
+			</button>
+
+			<p class="status" *ngIf="serverMessage as msg">{{ msg }}</p>
+
+			<p class="disclaimer">
+				This is a demo booking engine. No payment is processed. Connect this form to your real
+				reservation system or channel manager on the backend.
+			</p>
+		</form>
+
+		<aside class="booking-summary" *ngIf="summary as s">
+			<h2>Booking summary</h2>
+			<div class="summary-row">
+				<span>Check‑in</span>
+				<span>{{ s.checkIn }}</span>
+			</div>
+			<div class="summary-row">
+				<span>Check‑out</span>
+				<span>{{ s.checkOut }}</span>
+			</div>
+			<div class="summary-row">
+				<span>Nights</span>
+				<span>{{ s.nights }}</span>
+			</div>
+			<div class="summary-row">
+				<span>Guests</span>
+				<span>{{ s.guests }}</span>
+			</div>
+			<div class="summary-row">
+				<span>Room type</span>
+				<span class="badge">{{ s.roomType | titlecase }}</span>
+			</div>
+			<div class="divider"></div>
+			<div class="summary-row">
+				<span>Price per night</span>
+				<span>{{ s.pricePerNight | currency:'INR' }}</span>
+			</div>
+			<div class="summary-row total">
+				<span>Estimated total</span>
+				<span>{{ s.total | currency:'INR' }}</span>
+			</div>
+			<p class="note">Final prices and availability may vary and should be confirmed by your reservation team.</p>
+		</aside>
+	</div>
+</section>

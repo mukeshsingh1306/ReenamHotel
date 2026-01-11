@@ -1,0 +1,291 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<style>
+  :host {
+    --bright-blue: oklch(51.01% 0.274 263.83);
+    --electric-violet: oklch(53.18% 0.28 296.97);
+    --french-violet: oklch(47.66% 0.246 305.88);
+    --vivid-pink: oklch(69.02% 0.277 332.77);
+    --hot-red: oklch(61.42% 0.238 15.34);
+    --orange-red: oklch(63.32% 0.24 31.68);
+
+    --gray-900: oklch(19.37% 0.006 300.98);
+    --gray-700: oklch(36.98% 0.014 302.71);
+    --gray-400: oklch(70.9% 0.015 304.04);
+
+    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
+      180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+
+    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
+      90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+
+    --pill-accent: var(--bright-blue);
+
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    font-size: 3.125rem;
+    color: var(--gray-900);
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.125rem;
+    margin: 0;
+    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+  }
+
+  p {
+    margin: 0;
+    color: var(--gray-700);
+  }
+
+  main {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: inherit;
+    position: relative;
+  }
+
+  .angular-logo {
+    max-width: 9.2rem;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 3rem;
+  }
+
+  .content h1 {
+    margin-top: 1.75rem;
+  }
+
+  .content p {
+    margin-top: 1.5rem;
+  }
+
+  .divider {
+    width: 1px;
+    background: var(--red-to-pink-to-purple-vertical-gradient);
+    margin-inline: 0.5rem;
+  }
+
+  .pill-group {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    --pill-accent: var(--bright-blue);
+    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
+    color: var(--pill-accent);
+    padding-inline: 0.75rem;
+    padding-block: 0.375rem;
+    border-radius: 2.75rem;
+    border: 0;
+    transition: background 0.3s ease;
+    font-family: var(--inter-font);
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.4rem;
+    letter-spacing: -0.00875rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .pill:hover {
+    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
+  }
+
+  .pill-group .pill:nth-child(6n + 1) {
+    --pill-accent: var(--bright-blue);
+  }
+  .pill-group .pill:nth-child(6n + 2) {
+    --pill-accent: var(--electric-violet);
+  }
+  .pill-group .pill:nth-child(6n + 3) {
+    --pill-accent: var(--french-violet);
+  }
+
+  .pill-group .pill:nth-child(6n + 4),
+  .pill-group .pill:nth-child(6n + 5),
+  .pill-group .pill:nth-child(6n + 6) {
+    --pill-accent: var(--hot-red);
+  }
+
+  .pill-group svg {
+    margin-inline-start: 0.25rem;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.73rem;
+    margin-top: 1.5rem;
+  }
+
+  .social-links path {
+    transition: fill 0.3s ease;
+    fill: var(--gray-400);
+  }
+
+  .social-links a:hover svg path {
+    fill: var(--gray-900);
+  }
+
+  @media screen and (max-width: 650px) {
+    .content {
+      flex-direction: column;
+      width: max-content;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+    }
+  }
+</style>
+
+<header class="site-header">
+  <div class="brand">
+    <!-- Logo is served from the public/img folder at /img/reenam-logo.png -->
+  <img src="/img/reenam-logo.png" alt="Reenam Hotel logo" class="brand-logo" />
+    <div class="brand-text">
+        <span class="brand-tagline">Leh Ladakh · Near Leh Market</span>
+        </div>
+  </div>
+  <nav class="main-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <div class="nav-item has-submenu">
+      <a routerLink="/rooms" routerLinkActive="active">Rooms &amp; Suites</a>
+      <div class="submenu">
+    <a [routerLink]="['/rooms', 'deluxe']">Deluxe Room</a>
+    <a [routerLink]="['/rooms', 'deluxe-economy']">Deluxe Economy</a>
+    <a [routerLink]="['/rooms', 'deluxe-triple']">Deluxe Triple</a>
+    <a [routerLink]="['/rooms', 'family-suite']">Family Suite</a>
+    <a [routerLink]="['/rooms', 'superior-deluxe']">Superior Deluxe</a>
+    <a [routerLink]="['/rooms', 'superior-deluxe-queen']">Superior Deluxe Queen</a>
+    <a [routerLink]="['/rooms', 'superior-suite']">Superior Suite</a>
+      </div>
+    </div>
+    <a routerLink="/experience-ladakh" routerLinkActive="active">Experience Ladakh</a>
+    <a routerLink="/gallery" routerLinkActive="active">Gallery</a>
+    <a routerLink="/attractions" routerLinkActive="active">Attractions</a>
+    <a routerLink="/packages" routerLinkActive="active">Packages</a>
+    <a routerLink="/contact" routerLinkActive="active">Contact Us</a>
+  </nav>
+  <a class="header-cta" routerLink="/booking">Book Now</a>
+</header>
+
+<main class="site-main">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-widget footer-about">
+      <h4>About Us</h4>
+      <p>
+        Reenam Hotel offers spacious, centrally heated rooms and a calm garden
+        setting in upper Leh, giving you a comfortable base in every season.
+      </p>
+      <p>
+        Thoughtful layout and warm local hospitality make it feel like a home
+        away from home after a day exploring Ladakh.
+      </p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/ReenamHotel" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/hotelreenam/" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://x.com/ReenamHotel" target="_blank" rel="noreferrer">X</a>
+      </div>
+    </div>
+
+    <div class="footer-widget">
+      <h4>Tripadvisor</h4>
+      <p>
+        Guests consistently rate Reenam Hotel highly for its peaceful
+        location, mountain views, and friendly team.
+      </p>
+      <a
+        class="footer-button"
+        href="https://www.tripadvisor.com/Hotel_Review-g297625-d3297643-Reviews-Reenam_Hotel-Leh_Leh_District_Ladakh_Jammu_and_Kashmir.html"
+        target="_blank"
+        rel="noreferrer"
+      >
+        View reviews on Tripadvisor
+      </a>
+    </div>
+
+    <div class="footer-widget">
+      <h4>Facebook</h4>
+      <p>
+        Follow Reenam Hotel on Facebook for seasonal updates, photos from the
+        property, and travel tips for Leh Ladakh.
+      </p>
+      <a
+        class="footer-button"
+        href="https://www.facebook.com/ReenamHotel"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Visit Facebook page
+      </a>
+    </div>
+
+    <div class="footer-widget footer-contact">
+      <h4>Contact Us</h4>
+      <p>
+        Katpa, near Lamdon School<br />
+        Leh, UT Ladakh 194101, India
+      </p>
+      <p>
+        Mob: +91 70424 29642, +91 94199 77311, +91 94191 65910
+      </p>
+      <p>Email: contact@reenamhotel.com</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-meta">
+      <div class="copyright">
+        &copy; Reenam Hotel, Leh Ladakh. All rights reserved.
+      </div>
+    </div>
+  </div>
+</footer>

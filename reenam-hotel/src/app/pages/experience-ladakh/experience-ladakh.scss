@@ -1,0 +1,188 @@
+@use '../../../styles' as *;
+
+.ladakh-page {
+	max-width: 1080px;
+	margin-inline: auto;
+}
+
+.ladakh-page header h1 {
+	font-size: 1.9rem;
+}
+
+.ladakh-page header p {
+	color: #4b5563;
+}
+
+.ladakh-grid {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1.5rem;
+}
+
+.ladakh-grid article {
+	padding: 1.4rem 1.5rem;
+	border-radius: 1.3rem;
+	border: 1px solid rgba(209, 213, 219, 0.9);
+	background: #ffffff;
+}
+
+.ladakh-grid h2 {
+	font-size: 1.05rem;
+	margin-bottom: 0.4rem;
+}
+
+.ladakh-grid p {
+	font-size: 0.9rem;
+	color: #4b5563;
+}
+
+.ladakh-images {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.ladakh-images figure {
+	margin: 0;
+}
+
+.ladakh-images img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 1.1rem;
+}
+
+.ladakh-images figcaption {
+	margin-top: 0.4rem;
+	font-size: 0.8rem;
+	color: #4b5563;
+}
+
+.ladakh-strip {
+	margin-top: 2.5rem;
+	padding: 0.75rem 0.5rem;
+	border-radius: 1.5rem;
+	background: linear-gradient(90deg, rgba(178, 146, 97, 0.12), rgba(178, 41, 40, 0.08));
+	overflow: hidden;
+}
+
+.ladakh-strip-track {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(0, 1fr);
+	gap: 0.75rem;
+}
+
+.ladakh-strip figure {
+	margin: 0;
+}
+
+.ladakh-strip img {
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+	border-radius: 1.25rem;
+	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+}
+
+.ladakh-about {
+	margin-top: 3rem;
+	padding: 2.25rem 2rem;
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 18px;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+	backdrop-filter: blur(10px);
+	max-width: 900px;
+	margin-inline: auto;
+
+	h2 {
+		font-size: 1.35rem;
+		margin-bottom: 1.25rem;
+		color: #6c4323;
+	}
+
+	p {
+		margin: 0 0 0.9rem;
+		line-height: 1.7;
+		color: rgba(0, 0, 0, 0.78);
+	}
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.ladakh-faq {
+	margin-top: 3rem;
+	padding-top: 2.5rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+	h2 {
+		font-size: 1.35rem;
+		margin-bottom: 1.5rem;
+		text-align: center;
+		color: #6c4323;
+	}
+
+	.faq-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem 1.5rem;
+	}
+
+	.faq-item {
+		background: rgba(255, 255, 255, 0.9);
+		border-radius: 16px;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		padding: 1.25rem 1.4rem;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+	}
+
+	.faq-item h3 {
+		font-size: 1rem;
+		margin: 0 0 0.6rem;
+		color: #b22928;
+	}
+
+	.faq-item p {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.6;
+		color: rgba(0, 0, 0, 0.8);
+	}
+}
+
+@media (max-width: 900px) {
+	.ladakh-faq {
+		.faq-list {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
+@media (max-width: 720px) {
+	.ladakh-about {
+		padding: 1.75rem 1.25rem;
+	}
+}
+
+@media (max-width: 900px) {
+	.ladakh-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ladakh-images {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ladakh-images img {
+		height: 190px;
+	}
+}

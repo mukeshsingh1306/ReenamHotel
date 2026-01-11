@@ -1,0 +1,178 @@
+<section class="rooms-page">
+	<header>
+		<h1>Rooms &amp; suites</h1>
+		<p>Comfortable, centrally heated rooms in Leh with space for couples, families, and small groups.</p>
+	</header>
+	<div class="rooms-grid">
+		<article class="room-card" id="deluxe-room">
+			<div class="room-media room-media--deluxe"></div>
+			<div class="room-body">
+				<h2>Deluxe Room</h2>
+				<p>
+					Centrally heated room with a king bed, soft furnishings and windows that open to the hills – a
+					good fit for couples or solo travellers.
+				</p>
+				<div class="meta">
+					<span>Up to 2 guests</span>
+					<span>King bed</span>
+				</div>
+				<div class="footer">
+					<span class="price">CP plans from around ₹3,000</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'deluxe' }">Book</a>
+						<a [routerLink]="['/rooms', 'deluxe']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="room-card" id="deluxe-economy">
+			<div class="room-media room-media--deluxe-economy"></div>
+			<div class="room-body">
+				<h2>Deluxe Economy</h2>
+				<p>
+					A value option that keeps the same core comforts – warm bedding, attached bathroom and heating – in a
+					more compact layout.
+				</p>
+				<div class="meta">
+					<span>Up to 2 guests</span>
+					<span>King bed</span>
+				</div>
+				<div class="footer">
+					<span class="price">CP plans from around ₹2,640</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'deluxe-economy' }">Book</a>
+						<a [routerLink]="['/rooms', 'deluxe-economy']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="room-card" id="deluxe-triple">
+			<div class="room-media room-media--deluxe-triple"></div>
+			<div class="room-body">
+				<h2>Deluxe Triple</h2>
+				<p>
+					A larger heated room that comfortably fits three guests, useful for friends travelling together or
+					small families who prefer one shared space.
+				</p>
+				<div class="meta">
+					<span>Up to 3 guests</span>
+					<span>King bed with extra bedding</span>
+				</div>
+				<div class="footer">
+					<span class="price">MAP/AP plans available</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'deluxe-triple' }">Book</a>
+						<a [routerLink]="['/rooms', 'deluxe-triple']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="room-card" id="family-suite">
+			<div class="room-media room-media--family-suite"></div>
+			<div class="room-body">
+				<h2>Family Suite</h2>
+				<p>
+					Two interconnected rooms – one with a king bed and the other with twins – so parents and children can
+					share space while still having privacy.
+				</p>
+				<div class="meta">
+					<span>Up to 4–5 guests</span>
+					<span>Two linked bedrooms</span>
+				</div>
+				<div class="footer">
+					<span class="price">EP/CP/MAP/AP plans from around ₹4,800</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'family-suite' }">Book</a>
+						<a [routerLink]="['/rooms', 'family-suite']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="room-card" id="superior-deluxe">
+			<div class="room-media room-media--superior-deluxe"></div>
+			<div class="room-body">
+				<h2>Superior Deluxe</h2>
+				<p>
+					An upgraded double room category with a bit more space and softer finishes, created for guests who
+					prefer a slightly more premium setup.
+				</p>
+				<div class="meta">
+					<span>Up to 2 guests</span>
+					<span>King bed</span>
+				</div>
+				<div class="footer">
+					<span class="price">Plans from around ₹3,600</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'superior-deluxe' }">Book</a>
+						<a [routerLink]="['/rooms', 'superior-deluxe']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="room-card" id="superior-deluxe-queen">
+			<div class="room-media room-media--superior-deluxe-queen"></div>
+			<div class="room-body">
+				<h2>Superior Deluxe Queen</h2>
+				<p>
+					A queen‑bed version of the superior category, with warm interiors and views that make it a comfortable
+					choice for couples.
+				</p>
+				<div class="meta">
+					<span>Up to 2 guests</span>
+					<span>Queen bed</span>
+				</div>
+				<div class="footer">
+					<span class="price">CP/MAP/AP plans from around ₹6,240</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'superior-deluxe-queen' }">Book</a>
+						<a [routerLink]="['/rooms', 'superior-deluxe-queen']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article class="room-card" id="superior-suite">
+			<div class="room-media room-media--superior-suite"></div>
+			<div class="room-body">
+				<h2>Superior Suite</h2>
+				<p>
+					A suite with separate seating, plenty of storage and large windows – suited to longer stays or guests
+					who want extra personal space.
+				</p>
+				<div class="meta">
+					<span>Up to 2–3 guests</span>
+					<span>Bedroom with lounge</span>
+				</div>
+				<div class="footer">
+					<span class="price">Plans from around ₹6,600</span>
+					<div class="footer-links">
+						<a [routerLink]="['/booking']" [queryParams]="{ room: 'superior-suite' }">Book</a>
+						<a [routerLink]="['/rooms', 'superior-suite']">View full room page</a>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+	<section class="rooms-amenities">
+		<h2>Common room amenities</h2>
+		<p>
+			Across categories, rooms share a core set of practical comforts designed for Ladakh’s climate and long travel
+			days.
+		</p>
+		<ul>
+			<li>King or queen‑size beds with warm bedding and electric blankets</li>
+			<li>Towels, basic toiletries and attached bathrooms with 24‑hour hot and cold water</li>
+			<li>Tea/coffee maker, intercom and flat‑screen TV with DTH connection</li>
+			<li>Work desk, chairs, a pair of easy chairs or sofa seats and a cupboard</li>
+			<li>Centrally heated building with bed warmers for colder nights</li>
+			<li>In‑house laundry service, daily housekeeping and a luggage room</li>
+			<li>Free internet access and room service within designated hours</li>
+		</ul>
+	</section>
+</section>

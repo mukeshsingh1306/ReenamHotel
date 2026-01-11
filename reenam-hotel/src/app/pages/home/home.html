@@ -1,0 +1,261 @@
+<section class="hero">
+	<div class="hero-content">
+		<p class="eyebrow">Leh Ladakh · Near Leh Market</p>
+		<h1>Stay close to the mountains and the main market.</h1>
+		<p class="subtitle">
+			Settle into bright, comfortable rooms with views of the surrounding hills, warm local hospitality, and easy
+			access to Leh's shops and sights.
+		</p>
+		<div class="hero-actions">
+			<a routerLink="/booking" class="primary">Check availability</a>
+			<a routerLink="/rooms" class="ghost">View rooms &amp; suites</a>
+		</div>
+		<div class="hero-stats">
+			<div>
+				<span class="value">4.4</span>
+				<span class="label">Guest rating (aggregate)</span>
+			</div>
+			<div>
+				<span class="value">3-star</span>
+				<span class="label">Comfort &amp; amenities</span>
+			</div>
+			<div>
+				<span class="value">₹2,500+</span>
+				<span class="label">Typical nightly range (INR)</span>
+			</div>
+		</div>
+	</div>
+	<div class="hero-card">
+		<h2>Quick booking</h2>
+		<p class="card-subtitle">Plan your stay in a few clicks.</p>
+		<div class="mini-grid">
+			<div>
+				<label>Check‑in</label>
+				<input type="date" />
+			</div>
+			<div>
+				<label>Check‑out</label>
+				<input type="date" />
+			</div>
+			<div>
+				<label>Guests</label>
+				<select>
+					<option>1 guest</option>
+					<option>2 guests</option>
+					<option>3 guests</option>
+					<option>4+ guests</option>
+				</select>
+			</div>
+			<div>
+				<label>Room type</label>
+				<select>
+					<option>Deluxe Room</option>
+					<option>Deluxe Economy</option>
+					<option>Deluxe Triple</option>
+					<option>Family Suite</option>
+					<option>Superior Deluxe</option>
+					<option>Superior Deluxe Queen</option>
+					<option>Superior Suite</option>
+				</select>
+			</div>
+		</div>
+		<button class="primary-block" routerLink="/booking">Go to full booking</button>
+	</div>
+</section>
+
+<section class="hero-images" *ngIf="heroImages.length">
+	<div class="hero-image-main">
+		<button
+			type="button"
+			class="hero-nav hero-nav--prev"
+			(click)="prevHero()"
+			aria-label="Previous image"
+		>
+			&#10094;
+		</button>
+		<img [src]="heroImages[currentHeroIndex].src" [alt]="heroImages[currentHeroIndex].alt" />
+		<button
+			type="button"
+			class="hero-nav hero-nav--next"
+			(click)="nextHero()"
+			aria-label="Next image"
+		>
+			&#10095;
+		</button>
+	</div>
+</section>
+
+<section class="highlights">
+	<article>
+		<h3>Rooms for couples, families &amp; groups</h3>
+		<p>
+			Choose from deluxe rooms, family spaces, and suites so everyone in your travel group finds a comfortable place
+			to unwind.
+		</p>
+	</article>
+	<article>
+		<h3>Close to Leh market &amp; landmarks</h3>
+		<p>
+			Stay within easy reach of Leh market, Shanti Stupa, Leh Palace, and other local highlights while still
+			returning to a quiet neighborhood.
+		</p>
+	</article>
+	<article>
+		<h3>Essential comforts covered</h3>
+		<p>
+			Enjoy reliable hot water, complimentary Wi-Fi, in-house dining, and helpful staff ready to assist with local
+			plans or onward travel.
+		</p>
+	</article>
+</section>
+
+<section class="home-welcome">
+	<div class="welcome-layout">
+		<div class="welcome-text">
+			<h2>Welcome to Reenam Hotel</h2>
+			<p>
+				From the moment you arrive, the hotel is set up to feel like a comfortable base in Leh rather than a
+				formal city property. Rooms are simply furnished, centrally heated and planned so you can warm up, unpack and
+				look out towards the surrounding hills.
+			</p>
+			<p>
+				Being close to the main market and on the way towards Lamdon School means you can step out for shopping,
+				cafés and short walks, then return quickly when the temperature drops. Many guests use the hotel as their
+				starting point for Leh Palace, Shanti Stupa and nearby monasteries.
+			</p>
+			<p>
+				A small team looks after day-to-day details – warm rooms, fresh linen, simple meals and local guidance – so you
+				can focus on your Ladakh plans.
+			</p>
+		</div>
+		<div class="welcome-gallery" aria-label="Glimpses of Reenam Hotel">
+			<figure>
+				<img src="/img/gallery/8.jpg" alt="Hotel exterior and garden at Reenam" />
+			</figure>
+			<figure>
+				<img src="/img/gallery/g6.jpg" alt="Dining and common spaces inside the hotel" />
+			</figure>
+			<figure>
+				<img src="/img/gallery/g4.jpg" alt="Rooms and corridor at Reenam Hotel" />
+			</figure>
+			<figure>
+				<img src="/img/gallery/1.jpg" alt="Garden seating with mountain backdrop" />
+			</figure>
+		</div>
+	</div>
+</section>
+
+<section class="home-rooms">
+	<header>
+		<h2>Rooms &amp; suites at a glance</h2>
+		<p>
+			Pick a room type that fits your group – from simple deluxe rooms to family and superior suites, all with warm
+			bedding and mountain air just outside the window.
+		</p>
+	</header>
+	<div class="home-rooms-grid">
+		<article class="room-card">
+			<img src="/img/rooms/deluxe-room-slider-1.jpg" alt="Deluxe room at Reenam Hotel" />
+			<h3>Deluxe Room</h3>
+			<p>Classic double rooms for couples or solo travellers who want a simple, cosy stay.</p>
+		</article>
+		<article class="room-card">
+			<img src="/img/rooms/deluxe-economy-slider-1.jpg" alt="Deluxe economy room in Leh" />
+			<h3>Deluxe Economy</h3>
+			<p>Value-friendly rooms that keep the essentials – warmth, cleanliness and a good night’s sleep.</p>
+		</article>
+		<article class="room-card">
+			<img src="/img/rooms/deluxe-triple-slider-1.jpg" alt="Triple occupancy room in Leh" />
+			<h3>Deluxe Triple</h3>
+			<p>Extra space and bedding for small groups or families travelling together.</p>
+		</article>
+		<article class="room-card">
+			<img src="/img/rooms/family-suite-slider-1.jpg" alt="Family suite at Reenam Hotel" />
+			<h3>Family Suite</h3>
+			<p>Suites with more room to spread out, ideal when travelling with children or elders.</p>
+		</article>
+		<article class="room-card">
+			<img src="/img/rooms/superior-deluxe-slider-1.jpg" alt="Superior deluxe room in Leh" />
+			<h3>Superior Deluxe</h3>
+			<p>Upgraded rooms with a little more space and comfort while staying close to the market.</p>
+		</article>
+		<article class="room-card">
+			<img src="/img/rooms/superior-deluxe-queen-slider-1.jpg" alt="Superior deluxe queen room" />
+			<h3>Superior Deluxe Queen</h3>
+			<p>Queen-bed rooms with warm interiors, suited to guests who like a softer, more spacious setup.</p>
+		</article>
+		<article class="room-card">
+			<img src="/img/rooms/superior-suite-slider-1.jpeg" alt="Superior suite with seating area" />
+			<h3>Superior Suite</h3>
+			<p>Suites with separate seating, good for longer stays or when you prefer extra privacy.</p>
+		</article>
+	</div>
+	<div class="home-rooms-cta">
+		<a routerLink="/rooms" class="text-link">View full room details</a>
+	</div>
+</section>
+
+<section class="home-testimonials">
+	<header>
+		<h2>What guests remember most</h2>
+		<p>
+			Reviews often mention the homely feel of the hotel, the garden and views, and how the team helps with trip
+			planning and simple everyday needs.
+		</p>
+	</header>
+	<div class="testimonials-grid">
+		<article>
+			<p>
+				“Our stay felt like being at a small mountain lodge – warm rooms, a cared-for garden and staff who were happy
+				to adjust meals and help with taxis and routes.”
+			</p>
+		</article>
+		<article>
+			<p>
+				“A good base in Leh with spacious rooms, central heating and views towards the hills. The café and common
+				areas make it easy to slow down between drives.”
+			</p>
+		</article>
+		<article>
+			<p>
+				“We visited in the quieter season and were glad the hotel was open – hot meals, bed warmers and local advice
+				made the cold days much easier to handle.”
+			</p>
+		</article>
+	</div>
+</section>
+
+<section class="home-attractions">
+	<header>
+		<h2>From the hotel to Leh’s highlights</h2>
+		<p>
+			Stay close to Shanti Stupa, Leh Palace and day trips towards Alchi, Nubra and Khardungla – with the hotel as a
+			quiet place to come back to.
+		</p>
+	</header>
+	<div class="attractions-grid">
+		<article>
+			<img src="/img/events/2.jpg" alt="Shanti Stupa in Leh" />
+			<h3>Shanti Stupa</h3>
+			<p>A short drive up from town for sweeping views over Leh and the valley.</p>
+		</article>
+		<article>
+			<img src="/img/events/4.jpg" alt="Monastery near Leh" />
+			<h3>Alchi &amp; nearby monasteries</h3>
+			<p>Old monasteries and village walks that give you a slower look at Ladakh.</p>
+		</article>
+		<article>
+			<img src="/img/events/3.jpg" alt="High mountain pass near Leh" />
+			<h3>Khardungla &amp; beyond</h3>
+			<p>High passes and road journeys towards Nubra for sand dunes and open valleys.</p>
+		</article>
+		<article>
+			<img src="/img/events/1.jpg" alt="Leh Palace" />
+			<h3>Leh Palace &amp; old town</h3>
+			<p>Walk or drive towards the palace and explore narrow lanes and local cafés.</p>
+		</article>
+	</div>
+	<div class="home-attractions-cta">
+		<a routerLink="/attractions" class="text-link">Learn more about nearby attractions</a>
+	</div>
+</section>

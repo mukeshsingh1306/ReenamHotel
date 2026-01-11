@@ -1,0 +1,100 @@
+<section class="room-detail" *ngIf="room() as r; else notFound">
+  <header class="room-detail__header">
+    <div class="room-detail__breadcrumb">
+      <a routerLink="/rooms">Rooms &amp; suites</a>
+      <span>/</span>
+      <span>{{ r.name }}</span>
+    </div>
+
+    <h1>{{ r.name }}</h1>
+    <p class="room-detail__tagline">{{ r.shortTagline }}</p>
+  </header>
+
+  <div class="room-detail__hero">
+    <div class="hero-media" [style.backgroundImage]="'url(' + r.heroImage + ')'" aria-hidden="true"></div>
+    <div class="hero-info">
+      <p class="hero-info__summary">{{ r.summary }}</p>
+      <div class="hero-info__chips">
+        <span>{{ r.sizeLabel }}</span>
+        <span>{{ r.occupancyLabel }}</span>
+      </div>
+      <div class="hero-info__rate">
+        <h2>Indicative plan rates</h2>
+        <p class="hero-info__meta">
+          <span>{{ r.rate.roomsLabel }}</span>
+          <span>{{ r.rate.occupancy }}</span>
+        </p>
+        <p class="hero-info__meta">{{ r.rate.size }}</p>
+        <ul class="rate-list">
+          <li><strong>EP</strong> (room only): {{ r.rate.ep }}</li>
+          <li><strong>CP</strong> (room + breakfast): {{ r.rate.cp }}</li>
+          <li><strong>MAP</strong> (room + breakfast &amp; dinner): {{ r.rate.map }}</li>
+          <li><strong>AP</strong> (all meals): {{ r.rate.ap }}</li>
+        </ul>
+        <p class="hero-info__note" *ngIf="r.rate.note">{{ r.rate.note }}</p>
+        <div class="hero-info__actions">
+          <a [routerLink]="['/booking']" [queryParams]="{ room: r.slug }">Book this room</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="room-detail__tabs">
+    <ul class="room-tabs">
+    <li (click)="setTab('rates')" [class.current]="activeTab() === 'rates'">Rates</li>
+    <li (click)="setTab('amenities')" [class.current]="activeTab() === 'amenities'">Amenities</li>
+    <li (click)="setTab('photos')" [class.current]="activeTab() === 'photos'">Photos</li>
+    <li (click)="setTab('policy')" [class.current]="activeTab() === 'policy'">Child policy</li>
+    </ul>
+
+    <div class="room-tab-content" *ngIf="activeTab() === 'rates'">
+    <h2>Rates &amp; stay details</h2>
+    <p>
+      {{ r.summary }} All rooms in this category are centrally heated and include a private bathroom,
+      work space and comfortable seating so you can unwind after a day of exploring Leh and the nearby
+      monasteries.
+    </p>
+    <p><strong>Rooms:</strong> {{ r.rate.roomsLabel }}</p>
+    <p><strong>Occupancy:</strong> {{ r.rate.occupancy }}</p>
+    <p><strong>Room size:</strong> {{ r.rate.size }}</p>
+    <ul class="rate-list">
+      <li><strong>EP</strong> (room only): {{ r.rate.ep }}</li>
+      <li><strong>CP</strong> (room + breakfast): {{ r.rate.cp }}</li>
+      <li><strong>MAP</strong> (room + breakfast &amp; dinner): {{ r.rate.map }}</li>
+      <li><strong>AP</strong> (all meals): {{ r.rate.ap }}</li>
+    </ul>
+    <p class="hero-info__note" *ngIf="r.rate.note">{{ r.rate.note }}</p>
+    </div>
+
+    <div class="room-tab-content" *ngIf="activeTab() === 'amenities'">
+    <h2>Room amenities</h2>
+    <ul class="amenities-list">
+      <li *ngFor="let amenity of r.amenities">{{ amenity }}</li>
+    </ul>
+    </div>
+
+    <div class="room-tab-content" *ngIf="activeTab() === 'photos' && r.photos.length">
+    <h2>Room photos</h2>
+    <div class="photo-grid">
+      <figure *ngFor="let photo of r.photos">
+      <img [src]="photo" [alt]="r.heroAlt" loading="lazy" />
+      </figure>
+    </div>
+    </div>
+
+    <div class="room-tab-content" *ngIf="activeTab() === 'policy'">
+    <h2>Child and extra bed policy</h2>
+    <ul>
+      <li *ngFor="let point of childPolicyPoints">{{ point }}</li>
+    </ul>
+    </div>
+  </section>
+</section>
+
+<ng-template #notFound>
+  <section class="room-detail room-detail--not-found">
+    <h1>Room not found</h1>
+    <p>The room you are looking for is not available. Please go back to the main rooms page.</p>
+    <a routerLink="/rooms">Back to rooms &amp; suites</a>
+  </section>
+</ng-template>
