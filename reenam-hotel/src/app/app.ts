@@ -9,4 +9,14 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('reenam-hotel');
+
+  protected readonly isNavOpen = signal(false);
+
+  protected toggleNav(): void {
+    this.isNavOpen.update((open) => !open);
+  }
+
+  protected closeNav(): void {
+    this.isNavOpen.set(false);
+  }
 }

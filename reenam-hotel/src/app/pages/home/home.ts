@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, NgIf, NgFor],
+  imports: [RouterLink, NgIf],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
