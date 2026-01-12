@@ -1,9 +1,13 @@
 <header class="site-header" [class.nav-open]="isNavOpen()">
   <div class="site-header-inner">
-	<div class="brand">
-	  <!-- Logo is served from the public/img folder at /img/reenam-logo.png -->
-		<img src="/img/reenam-logo.png" alt="Reenam Hotel logo" class="brand-logo" />
-	</div>
+  <a
+    class="brand"
+    routerLink="/"
+    (click)="closeNav()"
+  >
+    <!-- Logo is served from the public/img folder at /img/reenam-logo.png -->
+    <img src="/img/reenam-logo.png" alt="Reenam Hotel logo" class="brand-logo" />
+  </a>
   <button
     type="button"
     class="nav-toggle"
