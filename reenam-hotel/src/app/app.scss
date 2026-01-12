@@ -188,6 +188,51 @@
 	padding: 2rem 5vw 3rem;
 }
 
+.mobile-offer-slider {
+	display: none;
+	flex: 1 1 auto;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	background: #fff7ed;
+	color: #b22928;
+	padding: 0.3rem 0.6rem;
+	border-radius: 999px;
+	font-size: 0.8rem;
+}
+
+.offer-content {
+	text-align: center;
+	max-width: 320px;
+}
+
+.offer-title {
+	font-weight: 600;
+}
+
+.offer-subtitle {
+	margin-top: 0.1rem;
+	opacity: 0.95;
+}
+
+.offer-nav {
+	border: 1px solid rgba(178, 41, 40, 0.4);
+	background: transparent;
+	color: #b22928;
+	border-radius: 999px;
+	width: 1.4rem;
+	height: 1.4rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.8rem;
+	cursor: pointer;
+}
+
+.offer-nav:hover {
+	background: rgba(178, 41, 40, 0.06);
+}
+
 @media (max-width: 900px) {
 	.site-header {
 		padding: 0.75rem 0.75rem;
@@ -212,6 +257,14 @@
 
 	.header-cta {
 		display: none;
+	}
+
+	.site-main {
+		padding: 1.25rem 1rem 2rem;
+	}
+
+	.mobile-offer-slider {
+		display: flex;
 	}
 
 	.main-nav {
