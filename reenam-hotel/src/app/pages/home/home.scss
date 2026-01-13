@@ -442,6 +442,11 @@
 }
 
 @media (max-width: 640px) {
+	.hero-content h1 {
+		font-size: 1.3rem;
+		line-height: 1.2;
+	}
+
 	.home-rooms-grid {
 		grid-template-columns: minmax(0, 1fr);
 	}
