@@ -56,14 +56,26 @@ export class App implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.offers.length) {
-      this.offerTimerId = setInterval(() => this.nextOffer(), 7000);
-    }
+    // Always start the offer timer on init
+    this.startOfferTimer();
   }
 
   ngOnDestroy(): void {
+    this.clearOfferTimer();
+  }
+
+  private startOfferTimer(): void {
+    this.clearOfferTimer();
+    this.offerTimerId = setInterval(() => {
+      this.nextOffer();
+      console.log('Banner auto-slide: switched to offer', this.currentOfferIndex);
+    }, 2000);
+  }
+
+  private clearOfferTimer(): void {
     if (this.offerTimerId) {
       clearInterval(this.offerTimerId);
+      this.offerTimerId = null;
     }
   }
 }

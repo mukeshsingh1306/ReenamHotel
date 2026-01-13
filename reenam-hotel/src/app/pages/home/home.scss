@@ -406,6 +406,11 @@
 		grid-template-columns: minmax(0, 1fr);
 	}
 
+	.hero-content h1 {
+		font-size: 1.9rem;
+		line-height: 1.15;
+	}
+
 	.hero-card {
 		max-width: 26rem;
 		margin-inline: auto;

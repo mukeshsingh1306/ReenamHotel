@@ -194,10 +194,10 @@
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
-	background: #fff7ed;
-	color: #b22928;
+	background: linear-gradient(90deg, #fee2e2, #fecaca);
+	color: #7c2d12;
 	padding: 0.3rem 0.6rem;
-	border-radius: 999px;
+	border-radius: 0.75rem;
 	font-size: 0.8rem;
 }
 
@@ -232,7 +232,7 @@
 
 .offer-more {
 	font-size: 0.75rem;
-	color: #b22928;
+	color: #b91c1c;
 	text-decoration: underline;
 	margin-left: 0.35rem;
 }
