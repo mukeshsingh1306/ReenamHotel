@@ -1,0 +1,27 @@
+<section class="offers-page">
+  <header class="offers-header">
+    <h1>Offers &amp; campaigns</h1>
+    <p>
+      These are example campaigns and value-adds you can run at Reenam Hotel. Final availability,
+      inclusions and rates will always be confirmed by the reservations team.
+    </p>
+  </header>
+
+  <div class="offers-list">
+    <article class="offer-card" *ngFor="let offer of offers">
+      <h2>{{ offer.title }}</h2>
+      <p class="offer-summary">{{ offer.summary }}</p>
+      <ul>
+        <li *ngFor="let line of offer.details">{{ line }}</li>
+      </ul>
+    </article>
+  </div>
+
+  <footer class="offers-footer">
+    <p>
+      To apply any of these offers to a booking, please mention the campaign name in your enquiry or
+      contact the hotel directly on phone or email.
+    </p>
+    <a routerLink="/booking" class="offers-cta">Go to booking form</a>
+  </footer>
+</section>

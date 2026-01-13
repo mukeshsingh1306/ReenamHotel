@@ -6,10 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 
 type RoomType =
   | 'deluxe'
+  | 'deluxe-single'
   | 'deluxe-economy'
+  | 'economy-single'
   | 'deluxe-triple'
   | 'family-suite'
   | 'superior-deluxe'
+  | 'superior-single'
   | 'superior-deluxe-queen'
   | 'superior-suite';
 
@@ -37,13 +40,16 @@ export class Booking {
   serverMessage: string | null = null;
 
   private readonly basePrices: Record<RoomType, number> = {
-    deluxe: 3000,
+    deluxe: 2100,
+    'deluxe-single': 1800,
     'deluxe-economy': 1800,
-    'deluxe-triple': 3600,
-    'family-suite': 4800,
-    'superior-deluxe': 4800,
-    'superior-deluxe-queen': 5400,
-    'superior-suite': 6600,
+    'economy-single': 1500,
+    'deluxe-triple': 3000,
+    'family-suite': 4000,
+    'superior-deluxe': 2500,
+    'superior-single': 2300,
+    'superior-deluxe-queen': 3000,
+    'superior-suite': 4000,
   };
 
   constructor(

@@ -9,30 +9,44 @@
     <img src="/img/reenam-logo.png" alt="Reenam Hotel logo" class="brand-logo" />
   </a>
   <div class="mobile-offer-slider" *ngIf="offers.length">
-  <button
-    class="offer-nav offer-nav-prev"
-    type="button"
-    aria-label="Previous offer"
-    (click)="prevOffer()"
-  >
-    &#8249;
-  </button>
-  <div class="offer-content">
-    <div class="offer-title">
-      {{ offers[currentOfferIndex].title }}
+    <button
+      class="offer-nav offer-nav-prev"
+      type="button"
+      aria-label="Previous offer"
+      (click)="prevOffer()"
+    >
+      &#8249;
+    </button>
+    <div class="offer-content">
+      <div class="offer-text">
+        <div class="offer-title">
+          {{ offers[currentOfferIndex].title }}
+        </div>
+        <div class="offer-body">
+          <span
+            class="offer-subtitle"
+            *ngIf="offers[currentOfferIndex].subtitle"
+          >
+            {{ offers[currentOfferIndex].subtitle }}
+          </span>
+          <a
+            class="offer-more"
+            routerLink="/offers"
+            (click)="closeNav()"
+          >
+            More
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="offer-subtitle" *ngIf="offers[currentOfferIndex].subtitle">
-      {{ offers[currentOfferIndex].subtitle }}
-    </div>
-  </div>
-  <button
-    class="offer-nav offer-nav-next"
-    type="button"
-    aria-label="Next offer"
-    (click)="nextOffer()"
-  >
-    &#8250;
-  </button>
+    <button
+      class="offer-nav offer-nav-next"
+      type="button"
+      aria-label="Next offer"
+      (click)="nextOffer()"
+    >
+      &#8250;
+    </button>
   </div>
   <button
     type="button"
@@ -56,12 +70,15 @@
     <div class="nav-item has-submenu">
       <a routerLink="/rooms" routerLinkActive="active" (click)="closeNav()">Rooms &amp; Suites</a>
       <div class="submenu">
-  <a [routerLink]="['/rooms', 'deluxe']" (click)="closeNav()">Deluxe Room</a>
+  <a [routerLink]="['/rooms', 'deluxe']" (click)="closeNav()">Deluxe Double</a>
+  <a [routerLink]="['/rooms', 'deluxe-single']" (click)="closeNav()">Deluxe Single</a>
   <a [routerLink]="['/rooms', 'deluxe-economy']" (click)="closeNav()">Deluxe Economy</a>
+  <a [routerLink]="['/rooms', 'economy-single']" (click)="closeNav()">Economy Single</a>
   <a [routerLink]="['/rooms', 'deluxe-triple']" (click)="closeNav()">Deluxe Triple</a>
   <a [routerLink]="['/rooms', 'family-suite']" (click)="closeNav()">Family Suite</a>
-  <a [routerLink]="['/rooms', 'superior-deluxe']" (click)="closeNav()">Superior Deluxe</a>
-  <a [routerLink]="['/rooms', 'superior-deluxe-queen']" (click)="closeNav()">Superior Deluxe Queen</a>
+  <a [routerLink]="['/rooms', 'superior-deluxe']" (click)="closeNav()">Superior Double</a>
+  <a [routerLink]="['/rooms', 'superior-single']" (click)="closeNav()">Superior Single</a>
+  <a [routerLink]="['/rooms', 'superior-deluxe-queen']" (click)="closeNav()">Superior Queen</a>
   <a [routerLink]="['/rooms', 'superior-suite']" (click)="closeNav()">Superior Suite</a>
       </div>
     </div>
