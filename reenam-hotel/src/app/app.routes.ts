@@ -11,6 +11,7 @@ import { ExperienceLadakh } from './pages/experience-ladakh/experience-ladakh';
 import { Attractions } from './pages/attractions/attractions';
 import { Packages } from './pages/packages/packages';
 import { OffersCampaignPage } from './pages/offers/offers';
+import { AdminBookings } from './pages/admin-bookings/admin-bookings';
 
 export const routes: Routes = [
 	{ path: '', component: Home, title: 'Reenam Hotel | Home' },
@@ -25,5 +26,6 @@ export const routes: Routes = [
 	{ path: 'facilities', component: Facilities, title: 'Reenam Hotel | Facilities' },
 	{ path: 'contact', component: Contact, title: 'Reenam Hotel | Contact' },
 	{ path: 'booking', component: Booking, title: 'Reenam Hotel | Booking' },
+	{ path: 'admin/bookings', component: AdminBookings, title: 'Reenam Hotel | Admin | Bookings' },
 	{ path: '**', redirectTo: '' },
 ];

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyPipe, NgIf, TitleCasePipe } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { BookingApiService } from '../../booking-api.service';
 
 type RoomType =
   | 'deluxe'
@@ -54,7 +55,7 @@ export class Booking {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly http: HttpClient,
+    private readonly bookingApi: BookingApiService,
     private readonly route: ActivatedRoute,
   ) {
     const today = new Date();
@@ -103,8 +104,8 @@ export class Booking {
     };
 
     this.submitting = true;
-    this.http
-      .post<{ message: string }>('http://localhost:4000/api/bookings', {
+    this.bookingApi
+      .createBooking({
         ...value,
         nights,
         pricePerNight,
@@ -117,7 +118,8 @@ export class Booking {
         },
         error: () => {
           this.submitting = false;
-          this.serverMessage = 'Your request was saved locally, but we could not reach the booking service. Please contact the hotel directly.';
+          this.serverMessage =
+            'Your request was saved locally, but we could not reach the booking service. Please contact the hotel directly.';
         },
       });
   }

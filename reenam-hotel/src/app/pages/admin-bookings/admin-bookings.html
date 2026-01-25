@@ -1,0 +1,38 @@
+<section class="admin-bookings">
+	<header class="admin-header">
+		<h1>Bookings (latest)</h1>
+		<button type="button" (click)="fetch()">Refresh</button>
+	</header>
+
+	<p *ngIf="loading">Loading bookings…</p>
+	<p *ngIf="error as msg" class="error">{{ msg }}</p>
+
+	<table *ngIf="!loading && !error && bookings.length" class="bookings-table">
+		<thead>
+			<tr>
+				<th>Created</th>
+				<th>Guest</th>
+				<th>Email</th>
+				<th>Room</th>
+				<th>Dates</th>
+				<th>Guests</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let b of bookings">
+				<td>{{ b.createdAt | date: 'short' }}</td>
+				<td>{{ b.name }}</td>
+				<td>{{ b.email }}</td>
+				<td>{{ b.roomType | titlecase }}</td>
+				<td>{{ b.checkIn }} → {{ b.checkOut }}</td>
+				<td>{{ b.guests }}</td>
+				<td>{{ b.total | currency: 'INR' }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p *ngIf="!loading && !error && !bookings.length" class="empty">
+		No bookings found yet.
+	</p>
+</section>

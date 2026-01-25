@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
+import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -11,30 +12,43 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const MONGODB_URI =
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/reenam-hotel';
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan('combined'));
 
-const BOOKINGS_FILE = path.join(__dirname, 'bookings.json');
+// Simple MongoDB connection using Mongoose
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error', err);
+  });
 
-function appendBooking(booking) {
-  let current = [];
-  try {
-    if (fs.existsSync(BOOKINGS_FILE)) {
-      const raw = fs.readFileSync(BOOKINGS_FILE, 'utf-8');
-      current = JSON.parse(raw || '[]');
-    }
-  } catch (e) {
-    console.error('Failed reading existing bookings file', e);
-  }
-  current.push({ ...booking, createdAt: new Date().toISOString() });
-  try {
-    fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(current, null, 2));
-  } catch (e) {
-    console.error('Failed writing bookings file', e);
-  }
-}
+const bookingSchema = new mongoose.Schema(
+  {
+    checkIn: { type: String, required: true },
+    checkOut: { type: String, required: true },
+    guests: { type: Number, required: true },
+    roomType: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String },
+    specialRequests: { type: String },
+    pricePerNight: { type: Number },
+    total: { type: Number },
+    nights: { type: Number },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+const Booking = mongoose.model('Booking', bookingSchema);
 
 async function sendNotificationEmail(booking) {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, BOOKING_NOTIFY_EMAIL } = process.env;
@@ -108,7 +122,14 @@ app.post('/api/bookings', async (req, res) => {
     nights,
   };
 
-  appendBooking(booking);
+  try {
+    await Booking.create(booking);
+  } catch (e) {
+    console.error('Error saving booking to MongoDB', e);
+    return res
+      .status(500)
+      .json({ message: 'Failed to save booking. Please try again later.' });
+  }
 
   try {
     await sendNotificationEmail(booking);
@@ -117,6 +138,17 @@ app.post('/api/bookings', async (req, res) => {
   }
 
   return res.status(201).json({ message: 'Booking request received. We will contact you shortly.' });
+});
+
+// Simple endpoint to fetch recent bookings (for admin/tools)
+app.get('/api/bookings', async (_req, res) => {
+  try {
+    const bookings = await Booking.find().sort({ createdAt: -1 }).limit(50).lean();
+    return res.json(bookings);
+  } catch (e) {
+    console.error('Error fetching bookings from MongoDB', e);
+    return res.status(500).json({ message: 'Failed to fetch bookings.' });
+  }
 });
 
 app.get('/health', (_req, res) => {
