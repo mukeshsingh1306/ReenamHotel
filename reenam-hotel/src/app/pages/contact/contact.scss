@@ -42,6 +42,12 @@
 	margin-bottom: 0.35rem;
 }
 
+.field label .required {
+	color: #b22928;
+	font-weight: bold;
+	margin-left: 0.25rem;
+}
+
 .field input,
 .field textarea {
 	border-radius: 0.9rem;
@@ -60,6 +66,80 @@
 	margin-top: 0.6rem;
 	font-size: 0.8rem;
 	color: #9ca3af;
+}
+
+.error-message {
+	padding: 0.75rem;
+	margin-bottom: 1rem;
+	border-radius: 0.6rem;
+	background-color: #fee2e2;
+	color: #991b1b;
+	font-size: 0.9rem;
+	border-left: 4px solid #dc2626;
+}
+
+.success-message {
+	padding: 0.75rem;
+	margin-bottom: 1rem;
+	border-radius: 0.6rem;
+	background-color: #dcfce7;
+	color: #166534;
+	font-size: 0.9rem;
+	border-left: 4px solid #22c55e;
+}
+
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Primary submit button sizing to match layout (scoped to contact form) */
+.contact-form .primary-block {
+	display: inline-block;
+	width: 100%;
+	padding: 0.95rem 1.1rem;
+	font-size: 1rem;
+	border-radius: 0.9rem;
+	background: linear-gradient(90deg, #b22928, #8f1a1a);
+	color: #fff;
+	border: none;
+}
+
+.toast {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 1200;
+}
+
+.toast-content {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 0.75rem 1rem;
+	border-radius: 0.75rem;
+	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+	background: #fff;
+	min-width: 260px;
+}
+
+.toast-content.success {
+	border-left: 4px solid #22c55e;
+	color: #064e3b;
+}
+
+.toast-content.error {
+	border-left: 4px solid #dc2626;
+	color: #7f1d1d;
+}
+
+.toast-close {
+	margin-left: auto;
+	border: none;
+	background: transparent;
+	font-size: 1.1rem;
+	line-height: 1;
+	cursor: pointer;
 }
 
 .contact-info h2 {

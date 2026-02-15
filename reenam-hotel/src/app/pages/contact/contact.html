@@ -4,22 +4,35 @@
 		<p>Reach out to the hotel team or share arrival details.</p>
 	</header>
 
+	<!-- Toast popup for success / error -->
+	<div class="toast" *ngIf="submitMessage || submitError">
+		<div class="toast-content" [ngClass]="{ 'error': submitError, 'success': submitMessage }">
+			<span>{{ submitMessage || submitError }}</span>
+			<button type="button" class="toast-close" (click)="closeToast()">✕</button>
+		</div>
+	</div>
+
 	<div class="contact-layout">
-		<form class="contact-form">
+		<form class="contact-form" (ngSubmit)="onSubmit()">
 			<div class="field">
-				<label for="name">Name</label>
-				<input id="name" type="text" placeholder="Your name" />
+				<label for="name">Name <span class="required">*</span></label>
+				<input id="name" type="text" placeholder="Your name" [(ngModel)]="name" name="name" required />
 			</div>
 			<div class="field">
-				<label for="email">Email</label>
-				<input id="email" type="email" placeholder="you@example.com" />
+				<label for="email">Email <span class="required">*</span></label>
+				<input id="email" type="email" placeholder="you@example.com" [(ngModel)]="email" name="email" required />
 			</div>
 			<div class="field">
-				<label for="message">Message</label>
-				<textarea id="message" rows="4" placeholder="Ask a question or share special requests"></textarea>
+				<label for="message">Message <span class="required">*</span></label>
+				<textarea id="message" rows="4" placeholder="Ask a question or share special requests" [(ngModel)]="message" name="message" required></textarea>
 			</div>
-			<button type="button" class="primary-block">Send message (demo)</button>
-			<p class="note">Connect this form to your email or CRM in production.</p>
+			
+			<div *ngIf="submitError" class="error-message">{{ submitError }}</div>
+			<div *ngIf="submitMessage" class="success-message">{{ submitMessage }}</div>
+			
+			<button type="submit" class="primary-block" [disabled]="isSubmitting">
+				{{ isSubmitting ? 'Sending...' : 'Send message' }}
+			</button>
 		</form>
 
 		<aside class="contact-info">

@@ -92,6 +92,20 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model('User', userSchema);
 
+// Contact Us schema for storing inquiries
+const contactSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    message: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+const Contact = mongoose.model('Contact', contactSchema);
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 async function sendNotificationEmail(booking) {
@@ -321,6 +335,90 @@ app.get('/api/bookings', async (_req, res) => {
   } catch (e) {
     console.error('Error fetching bookings from MongoDB', e);
     return res.status(500).json({ message: 'Failed to fetch bookings.' });
+  }
+});
+
+// Contact Us endpoints
+/**
+ * @swagger
+ * /api/contact:
+ *   post:
+ *     summary: Submit a contact us inquiry
+ *     tags: [Contact]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               message:
+ *                 type: string
+ *             required:
+ *               - name
+ *               - email
+ *               - message
+ *     responses:
+ *       201:
+ *         description: Contact inquiry submitted
+ *       400:
+ *         description: Missing required fields
+ *       500:
+ *         description: Failed to save contact inquiry
+ *   get:
+ *     summary: Get all contact inquiries (admin)
+ *     tags: [Contact]
+ *     responses:
+ *       200:
+ *         description: List of contact inquiries
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                   message:
+ *                     type: string
+ *                   createdAt:
+ *                     type: string
+ *       500:
+ *         description: Failed to fetch inquiries
+ */
+
+app.post('/api/contact', async (req, res) => {
+  const { name, email, message } = req.body || {};
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: 'Name, email, and message are required.' });
+  }
+
+  try {
+    await Contact.create({ name, email, message });
+    return res.status(201).json({ message: 'Thank you for reaching out. We will contact you soon.' });
+  } catch (e) {
+    console.error('Error saving contact inquiry to MongoDB', e);
+    return res.status(500).json({ message: 'Failed to save your inquiry. Please try again later.' });
+  }
+});
+
+app.get('/api/contact', async (_req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 }).lean();
+    return res.json(contacts);
+  } catch (e) {
+    console.error('Error fetching contact inquiries from MongoDB', e);
+    return res.status(500).json({ message: 'Failed to fetch inquiries.' });
   }
 });
 
