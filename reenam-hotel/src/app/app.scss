@@ -184,6 +184,69 @@
 	box-shadow: 0 20px 40px rgba(178, 41, 40, 0.45);
 }
 
+// Authentication header section
+.header-auth {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-left: 1rem;
+}
+
+.auth-link {
+	padding: 0.6rem 1.2rem;
+	border-radius: 0.5rem;
+	border: 1px solid #b22928;
+	background: transparent;
+	color: #b22928;
+	font-weight: 600;
+	font-size: 0.9rem;
+	text-decoration: none;
+	transition: all 0.2s ease-out;
+	display: inline-block;
+
+	&:hover {
+		background: #b22928;
+		color: #ffffff;
+		transform: translateY(-1px);
+	}
+}
+
+.user-menu {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.85rem;
+}
+
+.user-name {
+	font-weight: 600;
+	color: #111827;
+	max-width: 120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.logout-btn {
+	padding: 0.35rem 0.6rem;
+	border-radius: 0.35rem;
+	border: 1px solid #d1d5db;
+	background: transparent;
+	color: #6b7280;
+	font-weight: 500;
+	font-size: 0.75rem;
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+
+	&:hover {
+		border-color: #b22928;
+		color: #b22928;
+		background: rgba(178, 41, 40, 0.05);
+	}
+}
+
 .site-main {
 	padding: 2rem 5vw 3rem;
 }

@@ -8,10 +8,14 @@
     "dev": "NODE_ENV=development node server.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.7.0",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.12",
-    "mongoose": "^8.7.0"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

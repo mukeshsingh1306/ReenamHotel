@@ -90,7 +90,19 @@
     <a routerLink="/packages" routerLinkActive="active" (click)="closeNav()">Packages</a>
     <a routerLink="/contact" routerLinkActive="active" (click)="closeNav()">Contact Us</a>
   </nav>
-  <a class="header-cta" routerLink="/booking" (click)="closeNav()">Book Now</a>
+  
+  <!-- Auth buttons in header (top right) -->
+  <div class="header-auth">
+    <ng-container *ngIf="(isAuthenticated$ | async) as isAuth; else loginSignup">
+      <div class="user-menu">
+        <span class="user-name" title="{{ (currentUser$ | async)?.name }}">{{ (currentUser$ | async)?.name }}</span>
+        <button class="logout-btn" (click)="logout()" type="button" title="Logout">↪</button>
+      </div>
+    </ng-container>
+    <ng-template #loginSignup>
+      <a class="auth-link" routerLink="/login" (click)="closeNav()">Login / Sign Up</a>
+    </ng-template>
+  </div>
 	</div>
 </header>
 

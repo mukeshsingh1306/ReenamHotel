@@ -1,15 +1,18 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, OnDestroy, OnInit, signal, inject } from '@angular/core';
+import { NgIf, CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App implements OnInit, OnDestroy {
-  protected readonly title = signal('reenam-hotel');
+  private authService = inject(AuthService);
+  protected isAuthenticated$ = this.authService.isAuthenticated$;
+  protected currentUser$ = this.authService.currentUser$;
 
   protected readonly isNavOpen = signal(false);
 
@@ -53,6 +56,11 @@ export class App implements OnInit, OnDestroy {
     }
     this.currentOfferIndex =
       (this.currentOfferIndex - 1 + this.offers.length) % this.offers.length;
+  }
+
+  protected logout(): void {
+    this.authService.logout();
+    this.closeNav();
   }
 
   ngOnInit(): void {

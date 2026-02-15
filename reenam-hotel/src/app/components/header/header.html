@@ -1,0 +1,19 @@
+<div class="auth-section">
+  <ng-container *ngIf="!isLoggedIn">
+    <a routerLink="/login" class="auth-btn login-btn">Login</a>
+    <a routerLink="/signup" class="auth-btn signup-btn">Sign Up</a>
+  </ng-container>
+  <ng-container *ngIf="isLoggedIn">
+    <div class="user-menu">
+      <button class="user-btn" (click)="toggleUserMenu()">
+        <span class="user-icon">👤</span>
+        <span class="user-name">{{ user?.name || user?.email }}</span>
+      </button>
+      <div class="dropdown-menu" *ngIf="showUserMenu">
+        <a routerLink="/profile" class="menu-item" (click)="showUserMenu = false">Profile</a>
+        <a routerLink="/bookings" class="menu-item" (click)="showUserMenu = false">My Bookings</a>
+        <button class="menu-item logout-btn" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </ng-container>
+</div>

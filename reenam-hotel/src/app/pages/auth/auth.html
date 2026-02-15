@@ -1,0 +1,143 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>{{ isLoginMode ? 'Welcome Back' : 'Create Account' }}</h1>
+    <p class="auth-subtitle">
+      {{ isLoginMode 
+        ? 'Sign in to your Reenam Hotel account' 
+        : 'Join us for exclusive offers and easy booking' }}
+    </p>
+
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <!-- Login Form -->
+    <form *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="login-email">Email or Mobile</label>
+        <input
+          id="login-email"
+          type="text"
+          placeholder="Enter email or mobile number"
+          formControlName="emailOrMobile"
+          class="form-input"
+          [class.error]="loginForm.get('emailOrMobile')?.invalid && loginForm.get('emailOrMobile')?.touched"
+        />
+        <div class="form-error" *ngIf="loginForm.get('emailOrMobile')?.invalid && loginForm.get('emailOrMobile')?.touched">
+          Email or mobile is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input
+          id="login-password"
+          type="password"
+          placeholder="Enter your password"
+          formControlName="password"
+          class="form-input"
+          [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        />
+        <div class="form-error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="loginForm.invalid || loading"
+      >
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <!-- Signup Form -->
+    <form *ngIf="!isLoginMode" [formGroup]="signupForm" (ngSubmit)="onSignup()">
+      <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input
+          id="signup-name"
+          type="text"
+          placeholder="Enter your full name"
+          formControlName="name"
+          class="form-input"
+          [class.error]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+        />
+        <div class="form-error" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+          Name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="signup-email">Email or Mobile</label>
+        <input
+          id="signup-email"
+          type="text"
+          placeholder="Enter email or mobile number"
+          formControlName="emailOrMobile"
+          class="form-input"
+          [class.error]="signupForm.get('emailOrMobile')?.invalid && signupForm.get('emailOrMobile')?.touched"
+        />
+        <div class="form-error" *ngIf="signupForm.get('emailOrMobile')?.invalid && signupForm.get('emailOrMobile')?.touched">
+          Email or mobile is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input
+          id="signup-password"
+          type="password"
+          placeholder="Enter password (min 6 characters)"
+          formControlName="password"
+          class="form-input"
+          [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+        />
+        <div class="form-error" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="signup-confirm">Confirm Password</label>
+        <input
+          id="signup-confirm"
+          type="password"
+          placeholder="Confirm your password"
+          formControlName="confirmPassword"
+          class="form-input"
+          [class.error]="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched"
+        />
+        <div class="form-error" *ngIf="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched">
+          Please confirm your password
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="signupForm.invalid || loading"
+      >
+        {{ loading ? 'Creating Account...' : 'Sign Up' }}
+      </button>
+    </form>
+
+    <div class="auth-toggle">
+      <p>{{ isLoginMode ? "Don't have an account?" : 'Already have an account?' }}</p>
+      <button
+        type="button"
+        class="toggle-link"
+        (click)="toggleMode()"
+      >
+        {{ isLoginMode ? 'Sign Up' : 'Login' }}
+      </button>
+    </div>
+
+    <div class="test-credentials" *ngIf="isLoginMode">
+      <p><strong>Test Credentials:</strong></p>
+      <p>Email: test@reenam.com</p>
+      <p>Password: test@123</p>
+    </div>
+  </div>
+</div>
