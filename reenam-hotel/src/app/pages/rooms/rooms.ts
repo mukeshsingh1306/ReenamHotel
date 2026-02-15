@@ -1,7 +1,8 @@
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { API_BASE_URL } from '../../booking-api.service';
 
 interface RoomCategoryView {
   _id?: string;
@@ -20,22 +21,23 @@ interface RoomCategoryView {
   templateUrl: './rooms.html',
   styleUrl: './rooms.scss',
 })
-export class Rooms {
+export class Rooms implements OnInit {
   private http = inject(HttpClient);
+  private readonly baseUrl = inject(API_BASE_URL);
 
   protected categories = signal<RoomCategoryView[]>([]);
 
-  constructor() {
-    this.load();
+  ngOnInit(): void {
+    this.loadCategories();
   }
 
-  protected async load(): Promise<void> {
+  protected async loadCategories(): Promise<void> {
     try {
-      const cats = await this.http.get<RoomCategoryView[]>('/api/room-categories').toPromise();
+      const cats = await this.http.get<RoomCategoryView[]>(`${this.baseUrl}/api/room-categories`).toPromise();
       this.categories.set(cats || []);
+      console.log('✅ Loaded categories:', cats);
     } catch (e) {
-      // fallback: leave categories empty
-      console.error('Failed to load room categories', e);
+      console.error('❌ Failed to load room categories', e);
     }
   }
 }

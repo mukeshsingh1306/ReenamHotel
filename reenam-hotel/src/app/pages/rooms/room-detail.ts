@@ -1,7 +1,8 @@
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { API_BASE_URL } from '../../booking-api.service';
 
 interface RoomRateInfo {
   roomsLabel: string;
@@ -436,9 +437,10 @@ const ROOM_DETAILS: Record<string, RoomDetailConfig> = {
   templateUrl: './room-detail.html',
   styleUrl: './room-detail.scss',
 })
-export class RoomDetail {
+export class RoomDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly http = inject(HttpClient);
+  private readonly baseUrl = inject(API_BASE_URL);
 
   protected readonly slug = signal<string>('');
 
@@ -480,29 +482,32 @@ export class RoomDetail {
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      this.slug.set(params.get('slug') ?? '');
+      const slug = params.get('slug') ?? '';
+      console.log('Route param slug:', slug);
+      this.slug.set(slug);
       this.activeTab.set('rates');
-    });
-
-    // react to slug changes using Angular signals/effect
-    effect(() => {
-      const s = this.slug();
-      if (s) {
-        // fire and forget
-        this.loadRemoteCategory(s).catch(() => {});
+      if (slug) {
+        this.loadRemoteCategory(slug).catch(() => {});
       }
     });
+  }
+
+  ngOnInit(): void {
+    // Component initialized
   }
 
   protected async loadRemoteCategory(slug: string): Promise<void> {
     if (!slug) return;
     try {
-      const cat = await this.http.get(`/api/room-categories/${slug}`).toPromise();
-      const current = { ...(this.remoteCategories() || {}) };
-      current[slug] = cat;
-      this.remoteCategories.set(current);
+      const cat = await this.http.get<any>(`${this.baseUrl}/api/room-categories/${slug}`).toPromise();
+      if (cat) {
+        const current = { ...(this.remoteCategories() || {}) };
+        current[slug] = cat;
+        this.remoteCategories.set(current);
+        console.log('✅ Loaded remote category:', slug, cat);
+      }
     } catch (e) {
-      // no remote data, ignore
+      console.error('❌ Failed to load remote category:', slug, e);
     }
   }
 }
