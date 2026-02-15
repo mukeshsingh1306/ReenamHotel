@@ -1,6 +1,7 @@
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 interface RoomRateInfo {
   roomsLabel: string;
@@ -431,12 +432,13 @@ const ROOM_DETAILS: Record<string, RoomDetailConfig> = {
 @Component({
   selector: 'app-room-detail',
   standalone: true,
-  imports: [CommonModule, NgIf, NgForOf, RouterLink],
+  imports: [CommonModule, NgIf, NgForOf, RouterLink, HttpClientModule],
   templateUrl: './room-detail.html',
   styleUrl: './room-detail.scss',
 })
 export class RoomDetail {
   private readonly route = inject(ActivatedRoute);
+  private readonly http = inject(HttpClient);
 
   protected readonly slug = signal<string>('');
 
@@ -444,7 +446,13 @@ export class RoomDetail {
 
   protected readonly room = computed<RoomDetailConfig | null>(() => {
     const key = this.slug();
-    return ROOM_DETAILS[key] ?? null;
+    const base = ROOM_DETAILS[key] ?? null;
+    const remote = (this.remoteCategories() ?? {})[key] ?? null;
+    if (!base && !remote) return null;
+    // prefer remote rate; if remote missing provide placeholders so base rates are not shown
+    const merged = { ...(base ?? (remote as any)), ...(remote as any) } as any;
+    merged.rate = remote?.rate ?? { ep: '—', cp: '—', map: '—', ap: '—' };
+    return merged as RoomDetailConfig;
   });
 
   protected readonly hasRoom = computed(() => this.room() !== null);
@@ -456,6 +464,9 @@ export class RoomDetail {
   ];
 
   protected readonly roomKeys = Object.keys(ROOM_DETAILS);
+
+  // store remote category data keyed by slug
+  protected readonly remoteCategories = signal<Record<string, any>>({});
 
   protected getSiblingRooms(currentSlug: string): RoomDetailConfig[] {
     return this.roomKeys
@@ -472,5 +483,26 @@ export class RoomDetail {
       this.slug.set(params.get('slug') ?? '');
       this.activeTab.set('rates');
     });
+
+    // react to slug changes using Angular signals/effect
+    effect(() => {
+      const s = this.slug();
+      if (s) {
+        // fire and forget
+        this.loadRemoteCategory(s).catch(() => {});
+      }
+    });
+  }
+
+  protected async loadRemoteCategory(slug: string): Promise<void> {
+    if (!slug) return;
+    try {
+      const cat = await this.http.get(`/api/room-categories/${slug}`).toPromise();
+      const current = { ...(this.remoteCategories() || {}) };
+      current[slug] = cat;
+      this.remoteCategories.set(current);
+    } catch (e) {
+      // no remote data, ignore
+    }
   }
 }

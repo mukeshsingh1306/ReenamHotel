@@ -106,6 +106,10 @@ const contactSchema = new mongoose.Schema(
 
 const Contact = mongoose.model('Contact', contactSchema);
 
+// Room models
+import RoomCategory from './models/roomCategory.js';
+import Room from './models/room.js';
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 async function sendNotificationEmail(booking) {
@@ -421,6 +425,208 @@ app.get('/api/contact', async (_req, res) => {
     return res.status(500).json({ message: 'Failed to fetch inquiries.' });
   }
 });
+
+/**
+ * @swagger
+ * /api/room-categories:
+ *   get:
+ *     summary: Get list of room categories
+ *     tags: [Rooms]
+ *     responses:
+ *       200:
+ *         description: List of categories
+ *       500:
+ *         description: Server error
+ */
+app.get('/api/room-categories', async (_req, res) => {
+  try {
+    const cats = await RoomCategory.find().lean();
+    return res.json(cats);
+  } catch (e) {
+    console.error('Error fetching room categories', e);
+    return res.status(500).json({ message: 'Failed to fetch room categories.' });
+  }
+});
+
+/**
+ * @swagger
+ * /api/room-categories/{slug}:
+ *   get:
+ *     summary: Get a room category by slug
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Category object
+ *       404:
+ *         description: Not found
+ */
+app.get('/api/room-categories/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params || {};
+    const cat = await RoomCategory.findOne({ slug }).lean();
+    if (!cat) return res.status(404).json({ message: 'Category not found.' });
+    return res.json(cat);
+  } catch (e) {
+    console.error('Error fetching room category', e);
+    return res.status(500).json({ message: 'Failed to fetch room category.' });
+  }
+});
+
+/**
+ * @swagger
+ * /api/rooms:
+ *   get:
+ *     summary: Get list of rooms (optionally filter by category slug)
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Category slug to filter rooms
+ *     responses:
+ *       200:
+ *         description: List of rooms
+ *       500:
+ *         description: Server error
+ */
+app.get('/api/rooms', async (req, res) => {
+  try {
+    const { category } = req.query || {};
+    let q = {};
+    if (category) {
+      const cat = await RoomCategory.findOne({ slug: category }).lean();
+      if (cat) q.category = cat._id;
+    }
+    const rooms = await Room.find(q).populate('category').sort({ roomNumber: 1 }).lean();
+    return res.json(rooms);
+  } catch (e) {
+    console.error('Error fetching rooms', e);
+    return res.status(500).json({ message: 'Failed to fetch rooms.' });
+  }
+});
+
+/**
+ * @swagger
+ * /api/rooms/{roomNumber}:
+ *   get:
+ *     summary: Get room by room number
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: path
+ *         name: roomNumber
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Room object
+ *       404:
+ *         description: Not found
+ */
+app.get('/api/rooms/:roomNumber', async (req, res) => {
+  try {
+    const { roomNumber } = req.params || {};
+    const room = await Room.findOne({ roomNumber }).populate('category').lean();
+    if (!room) return res.status(404).json({ message: 'Room not found.' });
+    return res.json(room);
+  } catch (e) {
+    console.error('Error fetching room', e);
+    return res.status(500).json({ message: 'Failed to fetch room.' });
+  }
+});
+
+// --- Admin CRUD for RoomCategories ---
+app.post('/api/admin/room-categories', async (req, res) => {
+  try {
+    const { name, slug, summary, sizeLabel, rate, amenities, photos } = req.body || {};
+    if (!name || !slug) return res.status(400).json({ message: 'name and slug are required' });
+    const exists = await RoomCategory.findOne({ slug });
+    if (exists) return res.status(400).json({ message: 'slug already exists' });
+    const cat = await RoomCategory.create({ name, slug, summary, sizeLabel, rate, amenities, photos });
+    return res.status(201).json(cat);
+  } catch (e) {
+    console.error('Error creating category', e);
+    return res.status(500).json({ message: 'Failed to create category' });
+  }
+});
+
+app.put('/api/admin/room-categories/:id', async (req, res) => {
+  try {
+    const { id } = req.params || {};
+    const update = req.body || {};
+    const cat = await RoomCategory.findByIdAndUpdate(id, update, { new: true }).lean();
+    if (!cat) return res.status(404).json({ message: 'Category not found' });
+    return res.json(cat);
+  } catch (e) {
+    console.error('Error updating category', e);
+    return res.status(500).json({ message: 'Failed to update category' });
+  }
+});
+
+app.delete('/api/admin/room-categories/:id', async (req, res) => {
+  try {
+    const { id } = req.params || {};
+    await RoomCategory.findByIdAndDelete(id);
+    return res.json({ message: 'Deleted' });
+  } catch (e) {
+    console.error('Error deleting category', e);
+    return res.status(500).json({ message: 'Failed to delete category' });
+  }
+});
+
+// --- Admin CRUD for Rooms ---
+app.post('/api/admin/rooms', async (req, res) => {
+  try {
+    const { roomNumber, categorySlug, floor, status, features, occupancy, sizeLabel, price } = req.body || {};
+    if (!roomNumber) return res.status(400).json({ message: 'roomNumber required' });
+    let category = undefined;
+    if (categorySlug) category = await RoomCategory.findOne({ slug: categorySlug });
+    const exists = await Room.findOne({ roomNumber });
+    if (exists) return res.status(400).json({ message: 'roomNumber exists' });
+    const room = await Room.create({ roomNumber, category: category?._id, floor, status, features, occupancy, sizeLabel, price });
+    return res.status(201).json(room);
+  } catch (e) {
+    console.error('Error creating room', e);
+    return res.status(500).json({ message: 'Failed to create room' });
+  }
+});
+
+app.put('/api/admin/rooms/:id', async (req, res) => {
+  try {
+    const { id } = req.params || {};
+    const update = req.body || {};
+    if (update.categorySlug) {
+      const cat = await RoomCategory.findOne({ slug: update.categorySlug });
+      update.category = cat?._id;
+      delete update.categorySlug;
+    }
+    const room = await Room.findByIdAndUpdate(id, update, { new: true }).lean();
+    if (!room) return res.status(404).json({ message: 'Room not found' });
+    return res.json(room);
+  } catch (e) {
+    console.error('Error updating room', e);
+    return res.status(500).json({ message: 'Failed to update room' });
+  }
+});
+
+app.delete('/api/admin/rooms/:id', async (req, res) => {
+  try {
+    const { id } = req.params || {};
+    await Room.findByIdAndDelete(id);
+    return res.json({ message: 'Deleted' });
+  } catch (e) {
+    console.error('Error deleting room', e);
+    return res.status(500).json({ message: 'Failed to delete room' });
+  }
+});
+
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok' });
