@@ -55,27 +55,6 @@ mongoose
     console.error('MongoDB connection error', err);
   });
 
-const bookingSchema = new mongoose.Schema(
-  {
-    checkIn: { type: String, required: true },
-    checkOut: { type: String, required: true },
-    guests: { type: Number, required: true },
-    roomType: { type: String, required: true },
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String },
-    specialRequests: { type: String },
-    pricePerNight: { type: Number },
-    total: { type: Number },
-    nights: { type: Number },
-  },
-  {
-    timestamps: true,
-  },
-);
-
-const Booking = mongoose.model('Booking', bookingSchema);
-
 // User schema for authentication
 const userSchema = new mongoose.Schema(
   {
@@ -106,9 +85,10 @@ const contactSchema = new mongoose.Schema(
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-// Room models
+// Room and Booking models
 import RoomCategory from './models/roomCategory.js';
 import Room from './models/room.js';
+import Booking from './models/booking.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
@@ -282,53 +262,94 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/bookings', async (req, res) => {
   const {
-    checkIn,
-    checkOut,
-    guests,
-    roomType,
-    name,
-    email,
-    phone,
+    guestName,
+    guestEmail,
+    guestPhone,
+    roomCategory,
+    checkInDate,
+    checkOutDate,
+    numberOfRooms,
+    numberOfGuests,
+    ratePerRoom,
+    mealPlan,
+    totalPrice,
     specialRequests,
-    pricePerNight,
-    total,
-    nights,
   } = req.body || {};
 
-  if (!checkIn || !checkOut || !guests || !roomType || !name || !email) {
+  if (
+    !guestName ||
+    !guestEmail ||
+    !roomCategory ||
+    !checkInDate ||
+    !checkOutDate ||
+    !numberOfRooms ||
+    !numberOfGuests ||
+    !ratePerRoom ||
+    !mealPlan ||
+    !totalPrice
+  ) {
     return res.status(400).json({ message: 'Missing required booking fields.' });
   }
 
-  const booking = {
-    checkIn,
-    checkOut,
-    guests,
-    roomType,
-    name,
-    email,
-    phone,
-    specialRequests,
-    pricePerNight,
-    total,
-    nights,
-  };
-
   try {
-    await Booking.create(booking);
+    // Check availability
+    const booked = await Booking.countDocuments({
+      roomCategory,
+      status: { $in: ['pending', 'confirmed'] },
+      $or: [
+        {
+          checkInDate: { $lt: new Date(checkOutDate) },
+          checkOutDate: { $gt: new Date(checkInDate) },
+        },
+      ],
+    });
+
+    // Get total rooms in category
+    const category = await RoomCategory.findById(roomCategory);
+    if (!category) {
+      return res.status(404).json({ message: 'Room category not found.' });
+    }
+
+    const totalRooms = await Room.countDocuments({ category: roomCategory });
+    const availableRooms = totalRooms - booked;
+
+    if (availableRooms < numberOfRooms) {
+      return res.status(400).json({
+        message: `Only ${availableRooms} rooms available for selected dates.`,
+        availableRooms,
+      });
+    }
+
+    const booking = new Booking({
+      guestName,
+      guestEmail,
+      guestPhone,
+      roomCategory,
+      checkInDate: new Date(checkInDate),
+      checkOutDate: new Date(checkOutDate),
+      numberOfRooms,
+      numberOfGuests,
+      ratePerRoom,
+      mealPlan,
+      totalPrice,
+      specialRequests,
+      status: 'pending',
+    });
+
+    await booking.save();
+
+    return res
+      .status(201)
+      .json({
+        message: 'Booking request received. We will contact you shortly.',
+        bookingId: booking._id,
+      });
   } catch (e) {
     console.error('Error saving booking to MongoDB', e);
     return res
       .status(500)
       .json({ message: 'Failed to save booking. Please try again later.' });
   }
-
-  try {
-    await sendNotificationEmail(booking);
-  } catch (e) {
-    console.error('Error sending booking email', e);
-  }
-
-  return res.status(201).json({ message: 'Booking request received. We will contact you shortly.' });
 });
 
 // Simple endpoint to fetch recent bookings (for admin/tools)
@@ -339,6 +360,112 @@ app.get('/api/bookings', async (_req, res) => {
   } catch (e) {
     console.error('Error fetching bookings from MongoDB', e);
     return res.status(500).json({ message: 'Failed to fetch bookings.' });
+  }
+});
+
+// Check room availability for a date range
+/**
+ * @swagger
+ * /api/bookings/availability/{categorySlug}:
+ *   get:
+ *     summary: Check room availability for a category on given dates
+ *     tags: [Bookings]
+ *     parameters:
+ *       - in: path
+ *         name: categorySlug
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Room category slug
+ *       - in: query
+ *         name: checkInDate
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *         description: Check-in date (ISO 8601 format)
+ *       - in: query
+ *         name: checkOutDate
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *         description: Check-out date (ISO 8601 format)
+ *     responses:
+ *       200:
+ *         description: Availability information
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 categorySlug:
+ *                   type: string
+ *                 totalRooms:
+ *                   type: number
+ *                 bookedRooms:
+ *                   type: number
+ *                 availableRooms:
+ *                   type: number
+ *                 isAvailable:
+ *                   type: boolean
+ *                 soldOut:
+ *                   type: boolean
+ *       400:
+ *         description: Missing required parameters
+ *       404:
+ *         description: Room category not found
+ *       500:
+ *         description: Server error
+ */
+app.get('/api/bookings/availability/:categorySlug', async (req, res) => {
+  const { categorySlug } = req.params;
+  const { checkInDate, checkOutDate } = req.query;
+
+  if (!checkInDate || !checkOutDate) {
+    return res
+      .status(400)
+      .json({ message: 'checkInDate and checkOutDate are required.' });
+  }
+
+  try {
+    // Find the room category by slug
+    const category = await RoomCategory.findOne({ slug: categorySlug });
+    if (!category) {
+      return res.status(404).json({ message: 'Room category not found.' });
+    }
+
+    // Count total rooms in category
+    const totalRooms = await Room.countDocuments({ category: category._id });
+
+    // Count booked rooms for the date range
+    const bookedCount = await Booking.countDocuments({
+      roomCategory: category._id,
+      status: { $in: ['pending', 'confirmed'] },
+      $or: [
+        {
+          checkInDate: { $lt: new Date(checkOutDate) },
+          checkOutDate: { $gt: new Date(checkInDate) },
+        },
+      ],
+    });
+
+    const availableRooms = totalRooms - bookedCount;
+    const isAvailable = availableRooms > 0;
+    const soldOut = availableRooms === 0;
+
+    return res.json({
+      categorySlug,
+      categoryName: category.name,
+      totalRooms,
+      bookedRooms: bookedCount,
+      availableRooms,
+      isAvailable,
+      soldOut,
+    });
+  } catch (e) {
+    console.error('Error checking availability:', e);
+    return res.status(500).json({ message: 'Failed to check availability.' });
   }
 });
 
