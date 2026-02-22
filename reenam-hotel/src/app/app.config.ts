@@ -10,6 +10,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    { provide: API_BASE_URL, useValue: 'http://localhost:4000' },
+    provide: API_BASE_URL, useValue:
+    //{ provide: API_BASE_URL, useValue: 'http://localhost:4000' },
   ]
 };
