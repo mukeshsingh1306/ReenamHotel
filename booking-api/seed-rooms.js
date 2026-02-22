@@ -2,7 +2,24 @@ import mongoose from 'mongoose';
 import RoomCategory from './models/roomCategory.js';
 import Room from './models/room.js';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/reenam-hotel';
+import dotenv from 'dotenv';
+dotenv.config();
+
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI is not defined in .env');
+  process.exit(1);
+}
+
+const MONGODB_URI = process.env.MONGODB_URI;
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error', err);
+    process.exit(1);
+  });
 
 const CATEGORY_MAP = {
   Deluxe: '101-102-103-104-203-204-205-206-207-209-210-302-303-304-305-306-407-309-310',
